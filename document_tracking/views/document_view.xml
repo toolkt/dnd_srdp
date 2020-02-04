@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<menuitem id="menu_document_tracking_main" name="Document Tracking" sequence="100" web_icon="document_tracking,static/description/icon.png" groups="base.group_user"/>
+
+
+    <record model="ir.ui.view" id="document_record_form">
+      <field name="name">document.record.form</field>
+      <field name="model">document.record</field>
+      <field name="arch" type="xml">
+        <form string="Dummy">
+          <sheet>
+            <div>
+                <h1>
+                    <field name="name"/>
+                </h1>
+            </div>
+            <group>
+             
+
+            </group>
+        
+          </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+          
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="document_record_tree">
+      <field name="name">document.record.tree</field>
+      <field name="model">document.record</field>
+      <field name="arch" type="xml">
+        <tree string="Tree">
+            <field name="name"/>
+        </tree>
+      </field>
+    </record>
+
+<!-- 
+        <record model="ir.ui.view" id="view_project_kanban">
+            <field name="name">project.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" on_create="project.open_create_project">
+                    <field name="name"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon">
+                                <div class="o_project_kanban_main">
+                                    <div class="o_kanban_card_content">
+                                        <div class="o_kanban_primary_left">
+                                            <div class="o_primary">
+                                                <span><t t-esc="record.name.value"/></span>
+                                                <span t-if="record.user_id.value">
+                                                    <strong><t t-esc="record.user_id.value"/></strong>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_manage_pane dropdown-menu" groups="document_tracking.document_manager" role="menu">
+                                        <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                            <div role="menuitem">
+                                                <a name="%(portal.portal_share_action)d" type="action">Share</a>
+                                            </div>
+                                            <div role="menuitem">
+                                                <a type="edit">Edit</a>
+                                            </div>
+                                        </div>
+                                        <div role="menuitem" aria-haspopup="true" class="o_no_padding_kanban_colorpicker">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                                        </div>
+                                    </div>
+                                    <a class="o_kanban_manage_toggle_button o_left" href="#" groups="document_tracking.document_manager"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                    <span class="o_right"><field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1" /></span>
+                                </div>
+
+                                <div class="o_project_kanban_boxes">
+                                    <a class="o_project_kanban_box" name="%(act_project_project_2_project_task_all)d" type="action">
+                                        <div>
+                                            <span class="o_value"><t t-esc="record.task_count.value"/></span>
+                                            <span class="o_label"><t t-esc="record.label_tasks.value"/></span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+ -->
+
+<!-- 
+    <record model="ir.ui.view" id="document_record_search">
+      <field name="name">document.record.search</field>
+      <field name="model">document.record</field>
+      <field name="arch" type="xml">
+        <search string="Search Camp">
+          <field name="name"/>
+        </search>
+      </field>
+    </record>
+
+
+    <record id="action_document_record" model="ir.actions.act_window">
+      <field name="name">Camps</field>
+      <field name="res_model">document.record</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field ref="dnd_camp_tree" name="view_id"/>
+    </record>
+
+
+
+    <menuitem id="menu_document_record" string="Camps" action="action_document_record" parent="menu_document_tracking_main"/>
+ -->
+
+
+
+</odoo>

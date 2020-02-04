@@ -1,0 +1,13 @@
+# Agent deps
+aiofiles
+aiohttp
+aiohttp-xmlrpc
+async-timeout
+panoramisk
+sentry-sdk
+python-iptables
+ipsetpy
+graypy
+# Console helper deps
+terminado
+tornado

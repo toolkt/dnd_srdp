@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+<record model="ir.ui.view" id="res_geo_brgy_form">
+  <field name="name">res.geo.brgy.form</field>
+  <field name="model">res.geo.brgy</field>
+  <field name="arch" type="xml">
+    <form string="Dummy">
+      <sheet>
+        <group>
+          <group>
+            <field name="rec_id"/>
+            <field name="name"/>
+            <field name="priority"/>
+          </group>
+        </group>
+        <notebook colspan="4">
+          <page string="Geometry">
+            <field name="the_geom" widget="geo_edit_map"/>
+          </page>
+        </notebook>
+      </sheet>
+    </form>
+  </field>
+</record>
+
+<record model="ir.ui.view" id="res_geo_brgy_tree">
+  <field name="name">res.geo.brgy.tree</field>
+  <field name="model">res.geo.brgy</field>
+  <field name="arch" type="xml">
+    <tree string="Tree">
+      <field name="rec_id"/>
+      <field name="priority"/>
+      <field name="name"/>
+    </tree>
+  </field>
+</record>
+
+<record model="ir.ui.view" id="res_geo_brgy_search">
+  <field name="name">res.geo.brgy.search</field>
+  <field name="model">res.geo.brgy</field>
+  <field name="arch" type="xml">
+    <search string="Search brgy">
+      <field name="name"/>
+    </search>
+  </field>
+</record>
+
+<record id="action_res_geo_brgy" model="ir.actions.act_window">
+  <field name="name">Barangay</field>
+  <field name="res_model">res.geo.brgy</field>
+  <field name="view_type">form</field>
+  <field name="view_mode">tree,form,geoengine</field>
+  <field ref="res_geo_brgy_tree" name="view_id"/>
+</record>
+
+<menuitem name="Barangay" id="base_geo_ph_brgy_menu" parent="base_geo_ph_config_menu" action="action_res_geo_brgy" groups="base_geoengine.group_geoengine_user,base_geoengine.group_geoengine_admin"/>
+
+<!-- GeoEngine views -->
+<record id="ir_ui_view_res_geo_brgy_view_ph0" model="ir.ui.view">
+  <field name="name">res.geo.brgy</field>
+  <field name="arch" type="xml">
+    <geoengine version="7.0">
+      <field name="name"/>
+      <field name="rec_id"/>
+      <field name="the_geom"/>
+    </geoengine>
+  </field>
+  <field eval="16" name="priority"/>
+  <field eval="12692088.8525, 2172344.0898, 14799709.4500, 131483.7807" name="default_extent"/>
+  <field name="model">res.geo.brgy</field>
+</record>
+
+<record id="geoengine_vector_layer_basic_brgy0" model="geoengine.vector.layer">
+  <field name="geo_field_id" ref="base_geo_ph.field_res_geo_brgy__the_geom"/>
+  <field name="name">Basic brgy</field>
+  <field name="view_id" ref="ir_ui_view_res_geo_brgy_view_ph0"/>
+  <field name="geo_repr">basic</field>
+  <field name="attribute_field_id" ref="field_res_geo_brgy__name"/>
+  <field name="begin_color">#109ff2</field>
+</record>
+
+<record id="geoengine_raster_layer_test0" model="geoengine.raster.layer">
+  <field name="raster_type">osm</field>
+  <field name="name">Brgy OSM</field>
+  <field name="view_id" ref="ir_ui_view_res_geo_brgy_view_ph0"/>
+  <field eval="0" name="overlay"/>
+</record>
+
+<record id="geoengine_raster_layer_osm0" model="geoengine.raster.layer">
+  <field name="raster_type">osm</field>
+  <field name="name">Brgy OSM Light</field>
+  <field name="view_id" ref="ir_ui_view_res_geo_brgy_view_ph0"/>
+  <field eval="1" name="overlay"/>
+</record>
+
+</odoo>

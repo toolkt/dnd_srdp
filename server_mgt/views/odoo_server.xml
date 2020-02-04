@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo> 
+	<data>
+        
+        <record model="ir.ui.view" id="server_instance_tree">
+            <field name="name">server.instance.tree</field>
+            <field name="model">server.instance</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+          </field>
+        </record> 
+
+        <record model="ir.ui.view" id="server_instance_form">
+            <field name="name">server.instance.form</field>
+            <field name="model">server.instance</field>
+            <field name="arch" type="xml">
+                <form string="Server">
+                    <sheet>
+                    	<group>
+                            <group>
+                                <field name="name"/>
+                                <field name="host"/>
+                                <field name="port"/>
+                                <field name="user"/>
+                                <field name="password"/>
+                            </group>
+                            <group>
+                                <button name="deploy_public_key" type="object" string="Deploy Public Key"/>
+                                    <field name="send_public_key" nolabel="1"/>
+                                <field name="install_postgres"/>
+                                <field name="install_tomcat"/>
+                            </group>
+	                    </group>
+                        <notebook>
+                            <page string="Server Log">
+                                <field name="log_ids">
+                                    <tree>
+                                        <field name="date"/>
+                                        <field name="name"/>
+                                        <field name="log"/>
+                                    </tree>
+                                </field>    
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="server_instance_action" model="ir.actions.act_window">
+            <field name="name">Server</field>
+        	<field name="type">ir.actions.act_window</field>
+            <field name="res_model">server.instance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+	<menuitem id="server_mgt_main_menu" name="Server"  web_icon="server_mgt,static/description/icon.png" sequence="10"/>
+	<menuitem id="server_instance_menu" name="Server" parent="server_mgt_main_menu" sequence="6" />
+	<menuitem id="server_instance_action_menu" name="Server" parent="server_instance_menu" action="server_instance_action" sequence="6" />
+
+    </data>
+</odoo>

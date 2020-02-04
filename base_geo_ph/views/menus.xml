@@ -1,0 +1,7 @@
+<odoo>
+
+    <menuitem name="Philippine GeoLocation" id="base_geo_ph_menu" groups="base_geoengine.group_geoengine_user"
+      web_icon="base_geo_ph,images/map.png" />
+    <menuitem name="Configruation" id="base_geo_ph_config_menu" parent="base_geo_ph_menu" groups="base_geoengine.group_geoengine_user,base_geoengine.group_geoengine_admin"/>
+
+</odoo>

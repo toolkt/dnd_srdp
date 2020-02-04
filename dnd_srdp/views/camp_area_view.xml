@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_dnd_camp_area_form" model="ir.ui.view">
+        <field name="name">view.dnd.camp.area.form</field>
+        <field name="model">dnd.camp.area</field>
+        <field name="arch" type="xml">
+            <form string="Area">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="shape_name" required="1" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="camp_id"/>
+                            <field name="date" />
+                            <field name="tag" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="shape_type" invisible="0"/>
+                            <field name="area_size" />
+                        </group>
+                    </group>
+                    <field name="shape_description" placeholder="Description"/>
+
+                    <notebook>
+                        <page string="Map">
+                            <field name="shape_paths" widget="map_drawing_shape"/>
+                        </page>
+                        <page string="Paths">
+                            <group>
+                                <field name="shape_area" attrs="{'invisible':[('shape_type', '=', 'circle')]}"/>
+                                <field name="shape_radius" attrs="{'invisible':[('shape_type', '!=', 'circle')]}"/>
+                                <field name="color" widget="color"/>
+                                <button string="Set Paths" name="set_paths" colspan="2" type="object"/>
+                            </group>
+                            <field name="shape_paths_manual"/>
+                            <field name="path_ids">
+                                <tree editable='bottom'>
+                                    <field name="lat" />
+                                    <field name="lng" />
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                    
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_dnd_camp_area_tree" model="ir.ui.view">
+        <field name="name">view.dnd.camp.area.tree</field>
+        <field name="model">dnd.camp.area</field>
+        <field name="arch" type="xml">
+            <tree string="Areas">
+                <field name="camp_id"/>
+                <field name="shape_name"/>
+                <field name="shape_type"/>
+                <field name="shape_area"/>
+                <field name="shape_radius"/>
+                <field name="shape_description"/>
+                <field name="date" />
+                <field name="area_size" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_dnd_camp_area_kanban">
+        <field name="name">view.dnd.camp.area.kanban</field>
+        <field name="model">dnd.camp.area</field>
+        <field name="arch" type="xml">
+            <kanban class="o_dnd_camp_area_kanban">
+                <field name="camp_id"/>
+                <field name="shape_name"/>
+                <field name="shape_type"/>
+                <field name="shape_area"/>
+                <field name="shape_radius"/>
+                <field name="shape_description"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_record_top">
+                                <!-- <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title"><span><t t-esc="record.camp_id.value"/></span></strong>
+                                </div> -->
+                            </div>
+                            <div class="o_kanban_record_bottom">
+                                <field name="shape_name"/>
+                                <field name="shape_description"/>
+                                <ul>
+                                    <li attrs="{'invisible': [('shape_type', 'not in', ['rectangle', 'polygon'])]}">
+                                        Area: <field name="shape_area"/>
+                                    </li>
+                                    <li attrs="{'invisible': [('shape_type', '!=', 'circle')]}">
+                                        Radius: <field name="shape_radius"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="view_dnd_camp_area_map" model="ir.ui.view">
+        <field name="name">view.dnd.camp.area.map</field>
+        <field name="model">dnd.camp.area</field>
+        <field name="arch" type="xml">
+            <map library="drawing" string="Shape">
+                <field name="camp_id"/>
+                <field name="shape_name"/>
+                <field name="shape_description"/>
+                <field name="shape_type"/>
+                <field name="shape_radius"/>
+                <field name="shape_area"/>
+                <field name="shape_paths"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title oe_partner_heading">
+                                    <field name="shape_name"/>
+                                </strong><!-- 
+                                <div attrs="{'invisible': [('shape_type', 'not in', ['rectangle', 'polygon'])]}">
+                                    Area: <field name="shape_area"/>
+                                </div> -->
+                                <!-- <div attrs="{'invisible': [('shape_type', '!=', 'circle')]}">
+                                    Radius: <field name="shape_radius"/>
+                                </div> -->
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </map>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dnd_camp_area_search">
+      <field name="name">dnd.camp.area.search</field>
+      <field name="model">dnd.camp.area</field>
+      <field name="arch" type="xml">
+        <search string="Search Camp">
+          <field name="shape_name"/>
+          <field name="tag"/>
+          <field name="camp_id"/>
+        </search>
+      </field>
+    </record>
+
+    <record id="action_dnd_camp_area" model="ir.actions.act_window">
+        <field name="name">Camp Areas</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dnd.camp.area</field>
+        <field name="view_mode">map,kanban,tree,form</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="menu_dnd_camp_area" string="Camp Areas" action="action_dnd_camp_area" sequence="200" parent="menu_dnd_camp_main"/>
+
+
+
+
+
+    <record id="view_dnd_camp_activity" model="ir.ui.view">
+        <field name="name">view.dnd.camp.activity.tree</field>
+        <field name="model">dnd.camp.activity</field>
+        <field name="arch" type="xml">
+            <tree string="Activity" >
+                <field name="name"/>
+                <field name="camp_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_dnd_camp_activity_form" model="ir.ui.view">
+        <field name="name">view.dnd.camp.activity.form</field>
+        <field name="model">dnd.camp.activity</field>
+        <field name="arch" type="xml">
+            <form string="Ativity">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" required="1" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+
+                        <group>
+                            <field name="description"/>
+                            <field name="camp_id"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
+                    <separator/>
+                    <field name="notes" widget="html"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_dnd_camp_activity_timeline" model="ir.ui.view">
+        <field name="model">dnd.camp.activity</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline date_start="date_start"
+                      date_stop="date_end"
+                      string="Activities"
+                      default_group_by="camp_id"
+                      event_open_popup="true"
+                      zoomKey="ctrlKey">
+                <field name="camp_id"/>
+                <field name="name"/>
+                <field name="description"/>
+                <templates>
+                    <div t-name="timeline-item">
+                        <div t-esc="record.name"/>
+                        Area:
+                        <span t-esc="record.description"/>
+                    </div>
+                </templates>
+            </timeline>
+        </field>
+    </record>
+
+
+    <record id="action_dnd_camp_activity" model="ir.actions.act_window">
+        <field name="name">Activity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dnd.camp.activity</field>
+        <field name="view_mode">tree,form,timeline</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="menu_dnd_camp_activity" string="Activities" action="action_dnd_camp_activity" sequence="210"  parent="menu_dnd_camp_main"/>
+
+
+
+
+
+
+
+    <menuitem id="menu_dnd_camp_config" name="Configuration" sequence="300" parent="menu_dnd_camp_main"/>
+
+
+    <record id="view_dnd_camp_tag_tree" model="ir.ui.view">
+        <field name="name">view.dnd.camp.tag.tree</field>
+        <field name="model">dnd.camp.tag</field>
+        <field name="arch" type="xml">
+            <tree string="Tag" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dnd_camp_tag" model="ir.actions.act_window">
+        <field name="name">Camp Tags</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dnd.camp.tag</field>
+        <field name="view_mode">tree</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="menu_dnd_camp_tag" string="Camp Tags" action="action_dnd_camp_tag" parent="menu_dnd_camp_config"/>
+
+
+    <record id="view_dnd_area_tag_tree" model="ir.ui.view">
+        <field name="name">view.dnd.area.tag.tree</field>
+        <field name="model">dnd.area.tag</field>
+        <field name="arch" type="xml">
+            <tree string="Tag" editable="bottom">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dnd_area_tag" model="ir.actions.act_window">
+        <field name="name">Area Tags</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dnd.area.tag</field>
+        <field name="view_mode">tree</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="menu_dnd_area_tag" string="Area Tags" action="action_dnd_area_tag" parent="menu_dnd_camp_config"/>
+
+
+    <record id="view_dnd_bos_tree" model="ir.ui.view">
+        <field name="name">view.dnd.bos.tree</field>
+        <field name="model">dnd.bos</field>
+        <field name="arch" type="xml">
+            <tree string="Tag" editable="bottom">
+                <field name="name"/>
+                <field name="color" widget="google_marker_picker"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dnd_bos" model="ir.actions.act_window">
+        <field name="name">Branch of Service</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dnd.bos</field>
+        <field name="view_mode">tree</field>
+        <field name="view_type">form</field>
+    </record>
+
+    <menuitem id="menu_dnd_bos" string="Branch of Service" action="action_dnd_bos" parent="menu_dnd_camp_config"/>
+
+
+
+
+</odoo>

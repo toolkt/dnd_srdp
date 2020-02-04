@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_record,access_document_record,model_document_record,base.group_user,1,1,1,1
+access_document_workflow_stage,access_document_workflow_stage,model_document_workflow_stage,base.group_user,1,1,1,1
+access_document_workflow,access_document_workflow,model_document_workflow,base.group_user,1,1,1,1

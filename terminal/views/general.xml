@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Terminal HTML -->
+    <template id="terminal">
+        <div id="terminal" class="o_terminal">
+            <div class="col-sm-12 col-lg-12" id="terminal_screen" readonly="readonly"></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <input type="edit" class="col-sm-11 col-lg-11" id="terminal_input" />
+                    <input class="col-sm-1 col-lg-1" type="button" id="terminal_button" value="Send" />
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Put Terminal HTML -->
+    <template id="webclient_bootstrap" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//main[hasclass('o_main_content')]" position="before">
+            <t t-call="terminal.terminal" />
+        </xpath>
+    </template>
+
+    <!-- Load Javascript Terminal -->
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet"
+                  href="/terminal/static/src/less/terminal.less" />
+            <script type="text/javascript"
+                    src="/terminal/static/src/js/terminal.js"></script>
+            <script type="text/javascript"
+                    src="/terminal/static/src/js/terminal_core_funcs.js"></script>
+            <script type="text/javascript"
+                    src="/terminal/static/src/js/terminal_basic_funcs.js"></script>
+        </xpath>
+    </template>
+
+    <!-- Tests -->
+    <template id="qunit_suite" inherit_id="web.qunit_suite">
+        <xpath expr="//t[@t-set='head']" position="inside">
+            <script type="application/javascript"
+                    src="/terminal/static/tests/js/terminal_tests.js"
+                    />
+        </xpath>
+    </template>
+
+</odoo>

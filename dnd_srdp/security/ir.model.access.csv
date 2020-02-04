@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dnd_camp,access_dnd_camp,model_dnd_camp,base.group_user,1,1,1,1
+access_dnd_camp_area,access_dnd_camp_area,model_dnd_camp_area,base.group_user,1,1,1,1
+access_dnd_camp_tag,access_dnd_camp_tag,model_dnd_camp_tag,base.group_user,1,1,1,1
+access_dnd_area_tag,access_dnd_area_tag,model_dnd_area_tag,base.group_user,1,1,1,1
+access_dnd_camp_activity,access_dnd_camp_activity,model_dnd_camp_activity,base.group_user,1,1,1,1
+access_dnd_bos,access_dnd_bos,model_dnd_bos,base.group_user,1,1,1,1
+access_map_paths,access_map_paths,model_map_paths,base.group_user,1,1,1,1
+access_dnd_camp_area_map_paths,access_dnd_camp_area_map_paths,model_dnd_camp_area_map_paths,base.group_user,1,1,1,1

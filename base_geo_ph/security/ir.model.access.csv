@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_geo_user_res_geo_city","geoengine.user.res.geo.city","model_res_geo_city","base_geoengine.group_geoengine_user",1,0,0,0
+"access_geo_admin_res_geo_city","geoengine.admin.res.geo.city","model_res_geo_city","base_geoengine.group_geoengine_admin",1,1,1,1
+"access_geo_user_res_geo_brgy","geoengine.user.res.geo.brgy","model_res_geo_brgy","base_geoengine.group_geoengine_user",1,0,0,0
+"access_geo_admin_res_geo_brgy","geoengine.admin.res.geo.brgy","model_res_geo_brgy","base_geoengine.group_geoengine_admin",1,1,1,1

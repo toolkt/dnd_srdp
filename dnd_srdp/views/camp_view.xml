@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<menuitem id="menu_dnd_camp_main" name="DND-AFP Real Estate Titling" sequence="100" web_icon="dnd_srdp,static/description/icon.png" groups="base.group_user"/>
+
+
+    <record model="ir.ui.view" id="dnd_camp_form">
+      <field name="name">dnd.camp.form</field>
+      <field name="model">dnd.camp</field>
+      <field name="arch" type="xml">
+        <form string="Dummy">
+          <sheet>
+
+            <div class="oe_button_box" name="button_box">
+                <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                    <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                </button>
+            </div>
+            <field name="image" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [90, 90]}"/>
+            <div class="oe_title">
+                <h1>
+                    <field name="name" default_focus="1" placeholder="Name" />
+                </h1>
+                <div class="o_row">
+                    <field name="project_id"/>
+                </div>
+            </div>
+
+
+            <group>
+                <field name="description" />
+            </group>
+
+            <group>
+              <group>
+                <field name="tags" widget='many2many_tags'/>
+                <field name="priority"/>
+                <field name="bos"/>
+                <field name="area"/>
+                <field name="town"/>
+                <field name="city"/>
+                <field name="province"/>
+              </group>
+              <group>
+                <field name="doc_exp"/>
+                <field name="survey_exp"/>
+                <field name="admin_exp"/>
+                <field name="aquisition_exp"/>
+                <field name="other_fees"/>
+                <field name="total"/>
+              </group>
+
+            </group>
+            <notebook colspan="4">
+              <page string="Locations">
+                    
+                    <field name="shape_line_ids" mode="map">
+                        <map library="drawing" string="Shape">
+                            <field name="shape_name"/>
+                            <field name="shape_description"/>
+                            <field name="shape_type"/>
+                            <field name="shape_radius"/>
+                            <field name="shape_area"/>
+                            <field name="shape_paths"/>
+                            <templates>
+                                <t t-name="kanban-box">
+                                    <div class="oe_kanban_global_click">
+                                        <div class="oe_kanban_details">
+                                            <strong class="o_kanban_record_title oe_partner_heading">
+                                                <field name="shape_name"/>
+                                            </strong>
+                                            <div>
+                                                <field name="shape_description"/>
+                                            </div>
+                                            <div>
+                                                Area: <field name="shape_area"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </templates>
+                        </map>
+                        <form>
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="shape_name"/>
+                                        <!-- the widget needs this field to be loaded -->
+                                        <field name="shape_type" invisible="1"/> 
+                                    </group>
+                                    <group>
+                                        <field name="shape_area"/>
+                                        <field name="shape_radius"/>
+                                    </group>
+                                </group>
+                                <field name="shape_description"/>
+                                <separator string="Draw Shape"/>
+                                <field name="shape_paths" widget="map_drawing_shape"/>
+                            </sheet>
+                        </form>
+                    </field>
+              </page>
+              <page string="Areas">
+                <field name="filter_tags" widget="many2many_tags"/>
+                <field name="disp_shape_line_ids"  mode="map"/>
+              </page>
+              <page string="Location">
+                <group>
+                    <field name="camp_latitude"/>
+                    <field name="camp_longitude"/>
+                    <field name="marker_color" widget="google_marker_picker"/>
+                    <button string="Geolocate"
+                                name="geo_localize"
+                                colspan="2"
+                                icon="fa-check"
+                                type="object"/>
+                    <widget name="gmap_marker" lat="camp_latitude" lng="camp_longitude" description="name"/>
+                </group>
+              </page>
+              <page string="Activities">
+                <button string="View Timeline"
+                    name="action_view_activity_timeline"
+                    colspan="2"
+                    type="object"/>
+                
+                <field name="activity_ids" context="{'default_name': name, 'default_camp_id': active_id}"/>
+              </page>
+              <page string="Attachments">
+                    <field name="attachment_ids" widget="many2many_binary" string="Attach a file" class="oe_edit_only"/>
+              </page>
+            </notebook>
+          </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="dnd_camp_tree">
+      <field name="name">dnd.camp.tree</field>
+      <field name="model">dnd.camp</field>
+      <field name="arch" type="xml">
+        <tree string="Tree">
+            <field name="priority"/>
+            <field name="name"/>
+            <field name="area"/>
+            <field name="town"/>
+            <field name="city"/>
+            <field name="province"/>
+            <field name="doc_exp"/>
+            <field name="survey_exp"/>
+            <field name="admin_exp"/>
+            <field name="aquisition_exp"/>
+            <field name="other_fees"/>
+            <field name="total"/>
+            <field name="bos"/>
+            <field name="marker_color" widget="google_marker_picker"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="dnd_camp_search">
+      <field name="name">dnd.camp.search</field>
+      <field name="model">dnd.camp</field>
+      <field name="arch" type="xml">
+        <search string="Search Camp">
+          <field name="name"/>
+          <field name="description"/>
+        </search>
+      </field>
+    </record>
+
+
+    <record id="view_dnd_camp_map_view" model="ir.ui.view">
+        <field name="name">view.dnd.camp.map.view</field>
+        <field name="model">dnd.camp</field>
+        <field name="arch" type="xml">
+            <map class="o_dnd_camp_map" library="geometry" string="Map" lat="camp_latitude" lng="camp_longitude" color="marker_color">
+                <field name="id"/>
+                <field name="priority"/>
+                <field name="name"/>
+                <field name="area"/>
+                <field name="town"/>
+                <field name="city"/>
+                <field name="province"/>
+                <field name="description"/>
+                <field name="doc_exp"/>
+                <field name="survey_exp"/>
+                <field name="admin_exp"/>
+                <field name="aquisition_exp"/>
+                <field name="other_fees"/>
+                <field name="total"/>
+                <field name="bos"/>
+                <field name="marker_color"/>
+                <field name="camp_latitude"/>
+                <field name="camp_longitude"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <!-- Medium employee's picture -->
+                            <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image: url(#{kanban_image('dnd.camp', 'image_medium', record.id.value)})" role="img"/>
+                            <!-- Employee's picture optimized for mobile -->
+                            <div class="o_kanban_image d-md-none rounded-circle" t-attf-style="background-image: url(#{kanban_image('dnd.camp', 'image_small', record.id.value)})" role="img"/>
+
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <span t-if="record.description.raw_value" class="o_kanban_record_subtitle"><field name="description"/></span>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li> <field name="tags" widget="many2many_tags" options="{'color_field': 'color'}"/> </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </t>
+                </templates>
+            
+            </map>
+        </field>
+    </record>
+
+
+    <record id="action_dnd_camp" model="ir.actions.act_window">
+      <field name="name">DND Land Real Estate</field>
+      <field name="res_model">dnd.camp</field>
+      <field name="view_mode">map,form,tree</field>
+      <field name="view_type">form</field>
+      <field name="limit">1000</field>
+      <!-- <field ref="dnd_camp_tree" name="view_id"/> -->
+    </record>
+
+
+
+
+    <menuitem id="menu_dnd_camp" string="Camps" action="action_dnd_camp" parent="menu_dnd_camp_main"/>
+
+
+
+
+    <!-- Batch Actions -->
+    <record id="dnd_camp_batch_form" model="ir.ui.view">
+        <field name="name">dnd.camp.batch.form</field>
+        <field name="model">dnd.camp.batch</field>
+        <field name="arch" type="xml">
+            <form string="DND Camp Actions">
+                <div>
+                    <p> Common Actions for selected records </p>
+                </div>
+                <footer>
+                    <button name="geolocalize" type="object" string="Geolocalize" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="dnd_camp_batch_action" model="ir.actions.act_window">
+        <field name="name">Batch Actions</field>
+        <field name="res_model">dnd.camp.batch</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="dnd_camp_batch_form"/>
+        <field name="target">new</field>
+    </record>
+
+
+    <act_window id="action_dnd_camp_batch"
+        multi="True"
+        key2="client_action_multi" name="Batch Actions"
+        res_model="dnd.camp.batch" src_model="dnd.camp"
+        view_mode="form" target="new" view_type="form"
+    />
+
+
+
+
+
+
+
+
+
+</odoo>
